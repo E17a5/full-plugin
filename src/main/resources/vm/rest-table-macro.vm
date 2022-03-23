@@ -1,0 +1,3 @@
+#requireResource("be.aui.table:rest-table-resources")
+
+<table class="adaptavist-rest-table" restURL="${restURL}" values="${values}"></table>

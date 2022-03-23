@@ -1,0 +1,47 @@
+{namespace ContentFormatting.Macro.Common}
+
+/**
+ * Adds a Required icon from AUI
+ */
+{template .requiredIcon}
+    <span class="aui-icon icon-required icon-required-moved"> required</span>
+{/template}
+
+/**
+ * Adds a description under the field
+ */
+{template .descriptionDesc}
+    <div class="description">{getText('com.adaptavist.confluence.contentFormattingMacros.buttongroup.details.desc.desc')
+    }</div>
+{/template}
+
+
+/**
+* Link to velocity value documentation
+*
+*/
+{template .velocityValueLink}
+    {getText('com.adaptavist.confluence.contentFormattingMacros.buttongroup.thead.value1')}
+{/template}
+/**
+ * Footer content
+ *
+ * @param docHrefHtml
+ * @param buttonTitle
+ */
+{template .footerContent}
+    <div class="custom-macro-footer">
+        <div class="aui-group aui-group-split">
+            <div class="aui-item">
+                <a class=""
+                    href="{$docHrefHtml}"
+                    target="_blank">{getText('com.adaptavist.confluence.contentFormattingMacros.documentation')}</a>
+            </div>
+            <div class="aui-item">
+                <button class="aui-button aui-button-primary button-panel-button ok" id="insertButtonGroup"
+                    type="submit">{$buttonTitle}</button>
+                <a class="aui-button aui-button-link" href="#" id="cancelButtonGroup">{getText('com.adaptavist.confluence.contentFormattingMacros.buttongroup.cancel')}</a>
+            </div>
+        </div>
+    </div>
+{/template}

@@ -1,0 +1,75 @@
+<atlassian-plugin key="${atlassian.plugin.key}" name="${project.name}" plugins-version="2">
+    <plugin-info>
+        <description>${project.description}</description>
+        <version>${project.version}</version>
+        <vendor name="${project.organization.name}" url="${project.organization.url}" />
+        <param name="plugin-icon">images/pluginIcon.png</param>
+        <param name="plugin-logo">images/pluginLogo.png</param>
+    </plugin-info>
+
+    <!-- add our i18n resource -->
+    <resource type="i18n" name="i18n" location="macrotable"/>
+    
+    <!-- add our web resources -->
+    <web-resource key="macrotable-resources" name="macrotable Web Resources">
+        <dependency>com.atlassian.auiplugin:ajs</dependency>
+        
+        <resource type="download" name="macrotable.css" location="/css/macrotable.css"/>
+        <resource type="download" name="macrotable.js" location="/js/macrotable.js"/>
+        <resource type="download" name="images/" location="/images"/>
+
+        <context>macrotable</context>
+    </web-resource>
+
+    <xhtml-macro name="Testttt" class="be.aui.table.Test" key="xhtml-test">
+        <description>Test</description>
+        <category name="formatting"/>
+        <parameters>
+            <parameter name="name" type="string" required="true">
+                <option key="showNameInPlaceholder" value="true"/>
+                <option key="showValueInPlaceholder" value="true"/>
+            </parameter>
+        </parameters>
+    </xhtml-macro>
+
+    <xhtml-macro name="rest-table" class="be.aui.table.TableMacro" key="xhtml-rest-table">
+    <description>Creates a RESTful table</description>
+    <category name="formatting"/>
+    <parameters>
+        <parameter name="name" type="string" required="true">
+            <option key="showNameInPlaceholder" value="true"/>
+            <option key="showValueInPlaceholder" value="true"/>
+        </parameter>
+    </parameters>
+    </xhtml-macro>
+
+    <web-resource key="rest-table-resources">
+        <resource type="download" name="rest-table-setup.js" location="js/rest-table-setup.js"/>
+        <dependency>confluence.web.resources:ajs</dependency>
+        <dependency>com.atlassian.auiplugin:ajs</dependency>
+        <dependency>com.atlassian.auiplugin:aui-experimental-restfultable</dependency>
+    </web-resource>
+
+    <web-resource key="prout">
+
+        <transformation extension="js">
+            <transformer key="jsI18n"/>
+        </transformation>
+        <transformation extension="soy">
+            <transformer key="soyTransformer">
+                <functions>com.atlassian.confluence.plugins.soy:soy-core-functions</functions>
+            </transformer>
+        </transformation>
+
+        <resource type="download" name="common.soy.js" location="soy/common.soy"/>
+        <resource type="download" name="rest-table.js" location="soy/rest-table-macro.soy"/>
+        <resource type="download" name="rest-table-macro.js" location="js/rest-table-macro.js"/>
+        <resource type="download" name="custom-macro-dialog.css" location="css/custom-macro-dialog.css"/>
+
+        <dependency>confluence.web.resources:ajs</dependency>
+        <dependency>com.atlassian.confluence.editor:editor-resources</dependency>
+        <dependency>com.atlassian.auiplugin:dialog2</dependency>
+        <context>editor</context>
+    </web-resource>
+
+</atlassian-plugin>

@@ -1,0 +1,114 @@
+{namespace ContentFormatting.Macro.RestTable}
+
+/**
+ * Shortcuts dialog
+ *
+ * @param title
+ * @param buttonTitle
+ */
+{template .dialog}
+    {call aui.dialog.dialog2}
+        {param id: 'buttongroup-dialog'/}
+        {param titleText: $title/}
+        {param modal: true/}
+        {param size: 'xlarge'/}
+        {param content}
+            {call .content data="all"/}
+        {/param}
+        {param footerActionContent}
+            {call ContentFormatting.Macro.Common.footerContent data="all"}
+                {param docHrefHtml: 'https://docs.adaptavist.com/display/CFM4CS/Restful+Table' /}
+                {param buttonTitle: $buttonTitle /}
+            {/call}
+        {/param}
+    {/call}
+{/template}
+
+/**
+ * Main content
+ *
+ * @param restURL
+ * @param values
+ */
+{template .content}
+<div class="module custom-macro-dialog">
+    <form id="buttonGroupForm" class="aui rest-table">
+    <div role="application" class="aui-tabs horizontal-tabs">
+        <ul role="tablist" class="tabs-menu">
+            <li role="presentation" class="menu-item active-tab">
+                <a aria-selected="true" role="tab" id="link-details" href="#tabs-details"><strong>{getText('com.adaptavist.confluence.contentFormattingMacros.buttongroup.tab.one')}</strong></a>
+            </li>
+        </ul>
+        <div aria-hidden="false" role="tabpanel" class="tabs-pane active-pane" id="tabs-details">
+            <input id="avst-custom-dialog-macro-name" type="hidden" value="rest-table">
+            <fieldset class="details">
+                <legend>{getText('com.adaptavist.confluence.contentFormattingMacros.resttable.details.legend')}</legend>
+                <div class="aui-group aui-group-split">
+                    <div class="aui-item group-label">
+                        <label for="restURL">
+                            {getText('com.adaptavist.confluence.contentFormattingMacros.resttable.details.label')}
+                        </label>
+                        <input id="restURL" name="restURL" type="text" value="{$restURL ? $restURL : ''}"
+                        class="text"
+                        required="required"/>
+                        <div class="description">{getText('com.adaptavist.confluence.contentFormattingMacros.buttongroup.details.label.desc')}</div>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset class="rows">
+                <legend>{getText('com.adaptavist.confluence.contentFormattingMacros.resttable.rows.legend')}</legend>
+                    <div class="aui-group">
+                        <div class="aui-item create-button-rows">
+                            <table class="aui" id="dataTable">
+                                <thead>
+                                    <tr>
+                                        <th class="buttonLabel">
+                                            {getText('com.adaptavist.confluence.contentFormattingMacros.buttongroup.thead.label')}
+                                        </th>
+                                        <th class="buttonValue">
+                                            {call ContentFormatting.Macro.Common.velocityValueLink /}
+                                        </th>
+                                        <th class="actions">{getText('com.adaptavist.confluence.contentFormattingMacros.buttongroup.thead.actions')}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                   {foreach $value in $values}
+                                       {call .addRestTableRow}
+                                           {param rowIndex: index($value) /}
+                                           {param size: length($values)/}
+                                           {param label: $value.label/}
+                                           {param value: $value.value/}
+                                       {/call}
+                                   {/foreach}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+            </fieldset>
+        </div>
+    </div>
+    <button class="hiddenButton" id="hiddenButton" type="submit"></button>
+    </form>
+</div>
+{/template}
+
+/**
+ * Adds a Row
+ *
+ * @param rowIndex
+ * @param size
+ * @param label
+ * @param value
+ */
+{template .addRestTableRow}
+   <tr id="groupRow{$rowIndex}">
+       <td class="buttonLabel"><input class="text buttonInputLabel" name="buttonLabel" type="text" value="{$label}"/></td>
+       <td class="buttonValue"><input class="text buttonInputValue" name="buttonValue" type="text" value="{$value}"/></td>
+       <td class="actions">
+           <input onclick="addRestTableRow({$rowIndex})" type="button" class="aui-button" value="+"/>
+           <input onclick="removeRestTableGroupRow({$rowIndex})" id="removeButton-{$rowIndex}" type="button"
+           class="aui-button" value="-" {if $size == 1}disabled{/if}/>
+       </td>
+   </tr>
+{/template}
+
